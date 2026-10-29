@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+
+const sessionTypes = ['Newborn', 'Milestone', 'Family', 'Something else'];
+---
+
+<BaseLayout
+  title="Contact | Lavander Photos"
+  description="Book a session with Lavander Photos — newborns, milestones, families, and everyday moments."
+  image="/images/home-og.jpg"
+>
+  <main class="min-h-dvh">
+    <!-- Header -->
+    <section class="bg-linear-to-br from-lavender-200 via-lavender-400 to-plum-500">
+      <div class="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+        <p class="text-xs/5 font-bold tracking-widest text-plum-800 uppercase">Get in touch</p>
+        <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">Contact</h1>
+        <p class="mx-auto mt-6 max-w-xl text-lg/8 text-plum-950">
+          Tell me about the moment you want to remember — I usually reply within two days.
+        </p>
+      </div>
+    </section>
+
+    <!-- Form -->
+    <section class="mx-auto max-w-2xl px-6 py-20">
+      <form class="grid gap-6" onsubmit="return false">
+        <div class="grid gap-2">
+          <label for="name" class="text-sm/6 font-bold text-plum-950">Name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Your name"
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="email" class="text-sm/6 font-bold text-plum-950">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="session-type" class="text-sm/6 font-bold text-plum-950">Session type</label>
+          <select
+            id="session-type"
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          >
+            {sessionTypes.map((type) => <option value={type}>{type}</option>)}
+          </select>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="message" class="text-sm/6 font-bold text-plum-950">Message</label>
+          <textarea
+            id="message"
+            rows="5"
+            placeholder="Tell me about your session..."
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="justify-self-start rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          Send inquiry
+        </button>
+      </form>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,25 +1,269 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
-
-import exampleimg from '../assets/images/favicon.svg'
-import '../styles/global.css';  
+import '../styles/global.css';
 ---
 
-<BaseLayout 
-  title="Home Page" 
-  description="Welcome to my lightning fast website built with Astro."
+<BaseLayout
+  title="Lavander Photos | Family Photographer in Belmont Cragin, Chicago"
+  description="Lavander Photos by Joy — a family focused photographer in Belmont Cragin, Chicago, capturing newborns, milestones, and everyday moments just as they are."
   image="/images/home-og.jpg"
 >
-  <main>
-    <h1 class="text-center" >Welcome to my new site!</h1>
-	<Image 
-        src={exampleimg} 
-        alt="Gallery submission"
-		priority
-		fit="'contain' | 'cover' | 'fill' | 'none' | 'scale-down'"
-		position='center or other css options'
-      />
+  <main class="min-h-dvh">
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-linear-to-br from-lavender-300 via-lavender-600 to-plum-700">
+      <div class="mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 text-center md:flex-row md:justify-between md:py-28 md:text-left">
+        <div
+          class="grid aspect-square w-56 shrink-0 place-items-center rounded-full border-4 border-brown-600 bg-cream-100/90 shadow-lg md:w-80 lg:w-96"
+        >
+          <img
+            src="/lavander-photos-icon.webp"
+            alt="Lavander Photos icon — a lavender sprig beside a minimalist line-art camera"
+            class="w-3/4 h-auto drop-shadow-lg"
+          />
+        </div>
+        <div class="text-center md:text-left">
+          <p class="text-xs/5 font-bold tracking-widest text-cream-100 uppercase">Belmont Cragin · Chicago</p>
+          <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">
+            Lavander <span class="not-italic">Photos</span>
+            <span class="block pt-2 font-hand text-4xl/10 font-medium text-cream-100 md:text-5xl/12">by Joy</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-xl text-lg/8 text-cream-100 md:mx-0">
+            Soft, romantic photography with a modern eye. Every moment, framed in lavender.
+          </p>
+          <div class="mt-10 flex flex-wrap justify-center gap-4 md:justify-start">
+            <a
+              href="/gallery/"
+              class="rounded-full bg-white px-6 py-3 text-sm/6 font-bold text-plum-800 shadow-sm hover:bg-cream-100"
+            >
+              View my work
+            </a>
+            <a
+              href="/contact/"
+              class="rounded-full border-2 border-white/60 px-6 py-3 text-sm/6 font-bold text-white hover:bg-white/10"
+            >
+              Book a session
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Polaroid floor -->
+    <section class="overflow-x-clip bg-linear-to-b from-cream-100 to-cream-50 pb-16">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-start justify-center gap-x-4 gap-y-10 px-6 pt-4">
+        <figure
+          class="w-36 rotate-2 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-44"
+        >
+          <img
+            src="/baby-on-couch-for-first-birthday-with-baloon.avif"
+            alt="Baby on a couch for a first birthday with a balloon"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">first birthday!</figcaption>
+        </figure>
+
+        <figure
+          class="mt-6 w-36 -rotate-6 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-3 md:w-40"
+        >
+          <img
+            src="/Baby-with-Red-Headband.avif"
+            alt="Baby wearing a red headband"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">sweet girl</figcaption>
+        </figure>
+
+        <figure
+          class="mt-2 w-40 -rotate-3 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-48"
+        >
+          <img
+            src="/girl-climbing-over-fence.avif"
+            alt="Girl climbing over a fence"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">fence climber</figcaption>
+        </figure>
+
+        <figure
+          class="mt-8 w-36 rotate-6 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-4 md:w-44"
+        >
+          <img
+            src="/Child-Holding-Baby-on-Playground.avif"
+            alt="Child holding a baby on a playground"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">big brother duties</figcaption>
+        </figure>
+
+        <figure
+          class="mt-4 w-40 -rotate-2 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-44"
+        >
+          <img
+            src="/man-and-boy-on-lake-jet-skiing.avif"
+            alt="Man and boy jet skiing on a lake"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">lake day</figcaption>
+        </figure>
+
+        <figure
+          class="mt-10 w-36 rotate-3 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-2 md:w-40"
+        >
+          <img
+            src="/Person-by-Black-Car.avif"
+            alt="Person standing by a black car"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">arriving in style</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Story sections -->
+    <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="flex flex-col items-center gap-10 md:flex-row md:gap-16">
+        <figure
+          class="w-64 shrink-0 -rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/Children-on-Floor.webp"
+            alt="Children playing together on the floor"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">family time</figcaption>
+        </figure>
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">
+            Family Focused Photographer in Belmont Cragin Chicago
+          </h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            I love capturing families just as they are — the giggle fits, the piggyback rides,
+            the quiet in-between moments nobody thinks to pose for. Around here, photos aren't
+            about perfect smiles; they're about the people you love and the everyday magic
+            you'll want to remember years from now.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-20 flex flex-col-reverse items-center gap-10 md:mt-28 md:flex-row md:justify-between md:gap-16">
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">How I Got Started</h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            My partner got me a camera as a gift, and I haven't really put it down since.
+            What started as pointing it at everything in sight turned into a genuine passion
+            for freezing little pieces of time — and for learning something new with every
+            single session.
+          </p>
+        </div>
+        <figure
+          class="w-64 shrink-0 rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/girl-climbing-over-fence.avif"
+            alt="Girl climbing over a fence"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">where it started</figcaption>
+        </figure>
+      </div>
+
+      <div class="mt-20 flex flex-col items-center gap-10 md:mt-28 md:flex-row md:gap-16">
+        <figure
+          class="w-64 shrink-0 -rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/Child-in-Blue-Dress.avif"
+            alt="Child in a blue dress"
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">your story next</figcaption>
+        </figure>
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">Let's Capture Your Story</h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            Whether it's a first birthday, a growing family, or an ordinary Tuesday you want
+            to remember, I would love the opportunity to capture those special moments with
+            your family — beautifully, honestly, and just as they are.
+          </p>
+          <a
+            href="/contact"
+            class="mt-8 inline-block rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+          >
+            Book a session
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mx-auto max-w-3xl px-6 pb-24">
+      <h2 class="text-center font-baskerville text-4xl/11 font-bold text-plum-950">Frequently asked questions</h2>
+      <div class="mt-12 grid gap-4">
+        <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+            What kinds of sessions do you offer?
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 text-base/7 text-plum-950">
+            Newborns, milestone celebrations, growing-family sessions, and everyday moments
+            in between. If it's a moment you want to remember, I'd love to capture it.
+          </p>
+        </details>
+
+        <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+            Where do sessions take place?
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 text-base/7 text-plum-950">
+            I'm based in Belmont Cragin, Chicago, and love shooting in natural, familiar
+            spots — your home, a favorite park, or wherever your family feels most like
+            itself.
+          </p>
+        </details>
+
+        <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+            What should we wear to a session?
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 text-base/7 text-plum-950">
+            Whatever feels most like you! Soft, muted colors photograph beautifully, but
+            the goal is comfort — happy, relaxed people make the best photos.
+          </p>
+        </details>
+
+        <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+            What camera do you use?
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 text-base/7 text-plum-950">
+            I shoot with a Nikon D500 and a Canon EOS R50 — a sturdy workhorse and a
+            nimble sidekick, ready for anything your little ones throw at them.
+          </p>
+        </details>
+
+        <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+            How do I book a session?
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 text-base/7 text-plum-950">
+            Head over to the contact page and send me a quick message, or reach out on
+            Instagram. I'll get back to you with details and next steps.
+          </p>
+        </details>
+      </div>
+    </section>
   </main>
 </BaseLayout>
-

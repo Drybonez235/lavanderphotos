@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <!-- Brushed Metal Gradient -->
+    <linearGradient id="brushed-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e0e0" />
+      <stop offset="20%" stop-color="#999999" />
+      <stop offset="40%" stop-color="#eeeeee" />
+      <stop offset="60%" stop-color="#777777" />
+      <stop offset="80%" stop-color="#cccccc" />
+      <stop offset="100%" stop-color="#555555" />
+    </linearGradient>
+
+    <!-- Metal Edge Highlight -->
+    <linearGradient id="metal-edge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#333333" stop-opacity="0.8" />
+    </linearGradient>
+
+    <filter id="metal-shadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="5" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <g transform="rotate(-2.5 200 240)" filter="url(#metal-shadow)">
+    <!-- Thin Aluminum Outer Frame -->
+    <path fill-rule="evenodd" fill="url(#brushed-metal)" d="M 50,40 h 300 v 380 h -300 z
+             M 62,52 h 276 v 356 h -276 z" />
+
+    <!-- Inner Dark Rim -->
+    <path fill-rule="evenodd" fill="#1a1a1a" d="M 62,52 h 276 v 356 h -276 z
+             M 64,54 h 272 v 352 h -272 z" />
+
+    <!-- Gallery Off-White Passe-Partout (Mat) -->
+    <path fill-rule="evenodd" fill="#f8f8f6" d="M 64,54 h 272 v 352 h -272 z
+             M 100,90 h 200 v 280 h -200 z" />
+
+    <!-- Outer Rim Highlight -->
+    <rect x="50" y="40" width="300" height="380" rx="1" fill="none" stroke="url(#metal-edge)" stroke-width="1.5" />
+
+    <!-- Inner Cut Shadow -->
+    <rect x="100" y="90" width="200" height="280" fill="none" stroke="#000000" stroke-width="2" opacity="0.15" />
+  </g>
+</svg>

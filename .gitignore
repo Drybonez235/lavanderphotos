@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# wrangler generated state (local cache, deploy artifacts)
+.wrangler/
+
 # macOS-specific files
 .DS_Store
 

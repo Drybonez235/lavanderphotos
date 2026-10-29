@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <!-- Outer Gold Bevel -->
+    <linearGradient id="gold-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fceabb" />
+      <stop offset="30%" stop-color="#f8b500" />
+      <stop offset="50%" stop-color="#ffd700" />
+      <stop offset="70%" stop-color="#b8860b" />
+      <stop offset="100%" stop-color="#694600" />
+    </linearGradient>
+
+    <!-- Inner Gold Lip -->
+    <linearGradient id="gold-inner" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#ffd700" />
+      <stop offset="100%" stop-color="#8b6508" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="gold-shadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="8" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <g transform="rotate(-4 200 240)" filter="url(#gold-shadow)">
+    <!-- Combined Frame Structure with Transparent Cutout -->
+    <path fill-rule="evenodd" fill="url(#gold-bevel)" d="M 50,40 h 300 v 380 h -300 z
+             M 75,65 h 250 v 330 h -250 z" />
+
+    <!-- Inner Beveled Lip -->
+    <path fill-rule="evenodd" fill="url(#gold-inner)" d="M 75,65 h 250 v 330 h -250 z
+             M 90,80 h 220 v 300 h -220 z" />
+
+    <!-- Cream Linen Matboard -->
+    <path fill-rule="evenodd" fill="#fdfbf7" d="M 90,80 h 220 v 300 h -220 z
+             M 120,110 h 160 v 220 h -160 z" />
+
+    <!-- Outer Moulding Detail Line -->
+    <rect x="62" y="52" width="276" height="356" fill="none" stroke="#523900" stroke-width="1.5" opacity="0.6" />
+
+    <!-- Inner Opening Shadow Effect -->
+    <rect x="120" y="110" width="160" height="220" fill="none" stroke="#000000" stroke-width="3" opacity="0.15" />
+  </g>
+</svg>

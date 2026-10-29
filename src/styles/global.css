@@ -2,6 +2,78 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Effortlessly add or override custom theme values */
+  /* Brand: Lavander Photos — soft pastel palette drawn from the logo */
 
+  /* Dusty pastel lavender scale (low chroma, muted) */
+  --color-lavender-50: oklch(0.98 0.01 305);
+  --color-lavender-100: oklch(0.95 0.025 305);
+  --color-lavender-200: oklch(0.92 0.04 305);
+  --color-lavender-300: oklch(0.87 0.055 305);
+  --color-lavender-400: oklch(0.8 0.07 305);
+  --color-lavender-500: oklch(0.73 0.085 305);
+  --color-lavender-600: oklch(0.65 0.09 305);
+  --color-lavender-700: oklch(0.55 0.08 305);
+  --color-lavender-800: oklch(0.45 0.065 305);
+  --color-lavender-900: oklch(0.35 0.05 305);
+  --color-lavender-950: oklch(0.25 0.035 305);
+
+  /* Warm ivory neutrals (matches the logo's baked-in background) */
+  --color-cream-50: oklch(0.97 0.01 80);
+  --color-cream-100: oklch(0.94 0.015 80);
+  --color-cream-200: oklch(0.9 0.02 80);
+  --color-cream-300: oklch(0.84 0.025 80);
+  --color-cream-400: oklch(0.76 0.025 80);
+  --color-cream-500: oklch(0.66 0.025 80);
+  --color-cream-600: oklch(0.54 0.02 80);
+  --color-cream-700: oklch(0.42 0.015 80);
+  --color-cream-800: oklch(0.31 0.012 80);
+  --color-cream-900: oklch(0.22 0.01 80);
+
+  /* Muted mauve-taupe accent (matches the logo lettering) */
+  --color-plum-50: oklch(0.97 0.008 340);
+  --color-plum-100: oklch(0.93 0.015 340);
+  --color-plum-200: oklch(0.87 0.025 340);
+  --color-plum-300: oklch(0.78 0.035 340);
+  --color-plum-400: oklch(0.68 0.045 340);
+  --color-plum-500: oklch(0.58 0.05 340);
+  --color-plum-600: oklch(0.5 0.05 340);
+  --color-plum-700: oklch(0.42 0.045 340);
+  --color-plum-800: oklch(0.33 0.035 340);
+  --color-plum-900: oklch(0.26 0.025 340);
+  --color-plum-950: oklch(0.18 0.015 340);
+
+  /* Warm brown accent (frames and wood tones) */
+  --color-brown-50: oklch(0.97 0.015 45);
+  --color-brown-100: oklch(0.93 0.025 45);
+  --color-brown-200: oklch(0.87 0.04 45);
+  --color-brown-300: oklch(0.79 0.055 45);
+  --color-brown-400: oklch(0.71 0.07 45);
+  --color-brown-500: oklch(0.63 0.08 45);
+  --color-brown-600: oklch(0.55 0.075 45);
+  --color-brown-700: oklch(0.46 0.065 45);
+  --color-brown-800: oklch(0.37 0.055 45);
+  --color-brown-900: oklch(0.29 0.04 45);
+  --color-brown-950: oklch(0.21 0.03 45);
+
+  /* Typefaces */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Caveat", "Segoe Script", cursive;
+  --font-baskerville: "Libre Baskerville", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream-50);
+    background-image: url("/backgroundfall.webp");
+    background-size: 720px auto;
+    background-repeat: repeat;
+    color: var(--color-plum-950);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-baskerville);
+  }
 }

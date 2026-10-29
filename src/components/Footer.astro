@@ -1,2 +1,52 @@
 ---
+const year = new Date().getFullYear();
 ---
+
+<footer class="border-t border-cream-200 bg-linear-to-b from-cream-100 to-cream-50">
+  <div class="mx-auto flex max-w-6xl flex-col items-start gap-8 px-6 py-14 md:flex-row md:items-center md:justify-between">
+    <!-- Logo -->
+    <img
+      src="/lavander-photos-logo-nobg.webp"
+      alt="Lavander Photos logo — a lavender sprig beside a minimalist line-art camera above the words Lavander Photography"
+      loading="lazy"
+      class="w-56 h-auto md:w-72"
+    />
+
+    <!-- Contact -->
+    <ul class="grid gap-3">
+      <li>
+        <a
+          href="mailto:joypadilla99@gmail.com"
+          class="inline-flex items-center gap-3 rounded-md text-lg/8 font-bold text-plum-950 transition-colors hover:text-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true" class="size-6 shrink-0 text-lavender-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+          </svg>
+          joypadilla99@gmail.com
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.instagram.com/lavander.photos/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 rounded-md text-lg/8 font-bold text-plum-950 transition-colors hover:text-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" class="size-6 shrink-0 text-lavender-700">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+            <circle cx="12" cy="12" r="4.2" />
+            <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
+          </svg>
+          @lavander.photos
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="border-t border-cream-200">
+    <div class="mx-auto flex max-w-6xl flex-col items-center gap-2 px-6 py-6 text-center text-xs/5 text-plum-800 md:flex-row md:justify-between md:text-left">
+      <p>© {year} Lavander Photos by Joy. All rights reserved.</p>
+      <p>Family photography in Belmont Cragin, Chicago.</p>
+    </div>
+  </div>
+</footer>

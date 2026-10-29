@@ -38,6 +38,23 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## ☁️ Deploying to Cloudflare Workers
+
+The site is a static build served through [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/). Configuration lives in `wrangler.jsonc` and points at the `./dist/` build output.
+
+| Command                | Action                                                        |
+| :--------------------- | :------------------------------------------------------------ |
+| `npm run cf:preview`   | Build, then preview the production site locally via wrangler   |
+| `npm run deploy`       | Build, then deploy to Cloudflare Workers                      |
+
+First-time deployment:
+
+1. Log in: `npx wrangler login`
+2. Deploy: `npm run deploy`
+3. Your site will be live at `https://lavanderphotos.<your-subdomain>.workers.dev`
+
+To use a custom domain, add a `routes` entry to `wrangler.jsonc` and update the `site` value in `astro.config.mjs` so the sitemap URLs match.
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

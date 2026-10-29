@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers configuration — static assets only (no worker script).
+  // Deploy with: npm run deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lavanderphotos",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

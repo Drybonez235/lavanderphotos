@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+
+interface Photo {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+const photos: Photo[] = [
+  { src: '/baby-on-couch-for-first-birthday-with-baloon.avif', alt: 'Baby on a couch for a first birthday with a balloon', caption: 'first birthday!' },
+  { src: '/Baby-with-Red-Headband.avif', alt: 'Baby wearing a red headband', caption: 'sweet girl' },
+  { src: '/Butterfly-Costume.avif', alt: 'Toddler dressed in a butterfly costume', caption: 'fly away, little one' },
+  { src: '/Baby-on-Bed-with-Record.webp', alt: 'Baby lying on a bed next to a vinyl record', caption: 'spin the record' },
+  { src: '/Child-Holding-Baby-on-Playground.avif', alt: 'Child holding a baby on a playground', caption: 'big brother duties' },
+  { src: '/Child-in-Blue-Dress.avif', alt: 'Child in a blue dress', caption: 'twirl moment' },
+  { src: '/girl-climbing-over-fence.avif', alt: 'Girl climbing over a fence', caption: 'fence climber' },
+  { src: '/Children-on-Floor.webp', alt: 'Children playing on the floor', caption: 'family time' },
+  { src: '/man-and-boy-on-lake-jet-skiing.avif', alt: 'Man and boy jet skiing on a lake', caption: 'lake day' },
+  { src: '/Person-by-Black-Car.avif', alt: 'Person standing by a black car', caption: 'arriving in style' },
+];
+
+const tilts = [
+  'rotate-2',
+  '-rotate-3',
+  'rotate-1',
+  '-rotate-2',
+  'rotate-3',
+  '-rotate-1',
+];
+
+/**
+ * Manual masonry: each photo goes into whichever column is currently
+ * shortest, so the three stacks always end up with even heights and
+ * there are no empty grid cells anywhere in the layout.
+ */
+const columns: { photo: Photo; index: number }[][] = [[], [], []];
+const columnHeights = [0, 0, 0];
+photos.forEach((photo, index) => {
+  // matches the aspect ratio rendered below: every 4th photo is a 4:5
+  const height = index % 3 === 0 ? 1.25 : 1;
+  const target = columnHeights.indexOf(Math.min(...columnHeights));
+  columns[target].push({ photo, index });
+  columnHeights[target] += height;
+});
+---
+
+<BaseLayout
+  title="Gallery | Lavander Photos"
+  description="A look at recent sessions with Lavander Photos — newborns, milestones, and family moments."
+  image="/images/home-og.jpg"
+>
+  <main class="min-h-dvh">
+    <!-- Header -->
+    <section class="relative overflow-hidden bg-linear-to-br from-lavender-200 via-lavender-400 to-plum-500">
+      <div class="mx-auto flex max-w-6xl items-center justify-center gap-10 px-6 py-20 md:py-28">
+        <!-- Frames: left -->
+        <div class="hidden flex-1 items-center justify-center gap-4 md:flex" aria-hidden="true">
+          <img
+            src="/frames/frame-gold.svg"
+            alt=""
+            loading="lazy"
+            class="w-36 lg:w-44"
+          />
+          <img
+            src="/frames/frame-metal.svg"
+            alt=""
+            loading="lazy"
+            class="mt-16 w-32 lg:w-40"
+          />
+        </div>
+
+        <!-- Title -->
+        <div class="max-w-xl text-center">
+          <p class="text-xs/5 font-bold tracking-widest text-plum-800 uppercase">Portfolio</p>
+          <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">Gallery</h1>
+          <p class="mx-auto mt-6 max-w-xl text-lg/8 text-plum-950">
+            Little pieces of time, captured just as they are.
+          </p>
+        </div>
+
+        <!-- Frames: right -->
+        <div class="hidden flex-1 items-center justify-center gap-4 md:flex" aria-hidden="true">
+          <img
+            src="/frames/frame-wood.svg"
+            alt=""
+            loading="lazy"
+            class="w-32 lg:w-40"
+          />
+          <img
+            src="/frames/frame-oak.svg"
+            alt=""
+            loading="lazy"
+            class="mt-16 w-36 lg:w-44"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo grid -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid grid-cols-2 items-start gap-4 md:grid-cols-3 md:gap-6">
+        {
+          columns.map((column) => (
+            <div class="flex flex-col gap-8">
+              {column.map(({ photo, index }) => (
+                <figure
+                  class={`relative z-0 inline-block w-full bg-white p-3 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 transform-gpu hover:z-10 hover:scale-105 hover:rotate-0 ${tilts[index % tilts.length]}`}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    class={index % 3 === 0 ? 'aspect-[4/5] w-full object-cover' : 'aspect-square w-full object-cover'}
+                  />
+                  <figcaption class="pt-3 text-center font-hand text-xl/7 text-plum-800">{photo.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-16 flex flex-col items-center gap-4 border-t border-cream-200 pt-12 text-center">
+        <p class="font-display text-2xl/9 font-bold text-plum-950 italic">Want your moment here next?</p>
+        <a
+          href="/contact/"
+          class="mt-2 rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          Book a session
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

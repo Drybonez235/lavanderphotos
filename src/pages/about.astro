@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout
+  title="About | Lavander Photos"
+  description="Meet Joy, the photographer behind Lavander Photos — freezing little pieces of time for families, milestones, and everyday moments."
+  image="/images/home-og.jpg"
+>
+  <main class="min-h-dvh">
+    <!-- Header -->
+    <section class="bg-linear-to-br from-lavender-200 via-lavender-400 to-plum-500">
+      <div class="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+        <p class="text-xs/5 font-bold tracking-widest text-plum-800 uppercase">About</p>
+        <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">
+          Hi, I'm Joy! 🤍
+        </h1>
+        <p class="mt-6 text-lg/8 text-plum-950">Welcome to Lavander.photos.</p>
+      </div>
+    </section>
+
+    <!-- Bio + polaroid collage -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="flex flex-col items-center gap-12 md:flex-row md:items-start md:gap-16">
+        <div class="order-2 flex h-fit flex-1 justify-center gap-4 md:order-1 md:flex-col md:items-center">
+          <figure
+            class="relative z-0 w-40 rotate-2 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105 md:w-52"
+          >
+            <img
+              src="/baby-on-couch-for-first-birthday-with-baloon.avif"
+              alt="Baby on a couch celebrating a first birthday with a balloon"
+              loading="lazy"
+              class="aspect-square w-full object-cover"
+            />
+            <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">freezing the fun</figcaption>
+          </figure>
+          <figure
+            class="relative z-0 w-40 -rotate-3 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105 md:-mt-4 md:w-52"
+          >
+            <img
+              src="/Baby-with-Red-Headband.avif"
+              alt="Baby wearing a red headband"
+              loading="lazy"
+              class="aspect-square w-full object-cover"
+            />
+            <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">true smiles only</figcaption>
+          </figure>
+        </div>
+
+        <div class="max-w-2xl">
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">
+            Freezing little pieces of time
+          </h2>
+          <p class="mt-6 text-lg/8 text-plum-950">
+            One of the things I love most about photography is being able to freeze a little
+            piece of time. Life gets busy, the world can feel chaotic, and we're always rushing
+            toward the next thing. But sometimes, all it takes is
+            <span class="font-bold text-plum-800">one smile, one genuine laugh, or one special moment</span>
+            to remind us of what really matters.
+          </p>
+          <p class="mt-6 text-lg/8 text-plum-950">
+            Knowing that I can capture those moments and give someone a memory they can look
+            back on for years makes me genuinely happy. Whether it's your growing family, a
+            special celebration, a big milestone, or simply a moment you want to remember,
+            <span class="font-bold text-plum-800">I'd love to help tell your story through my lens.</span>
+          </p>
+
+          <div class="mt-10 rounded-xl bg-lavender-100 p-8">
+            <p class="text-lg/8 text-plum-950">
+              I'm a beginner photographer with a big passion for learning, creating, and
+              capturing life's beautiful, imperfect moments —
+              <span class="font-display italic">just as they are.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="bg-cream-100/70">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <h2 class="text-center font-baskerville text-4xl/11 font-bold text-plum-950">What a session with me looks like</h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <div class="rounded-xl bg-white p-8 shadow-sm">
+            <p class="font-hand text-2xl/8 text-lavender-700">no stiff posing</p>
+            <p class="mt-3 text-base/7 text-plum-950">
+              We'll play, snuggle, run around, and chase real moments instead of forced smiles.
+              The best photos are the ones you didn't know were being taken.
+            </p>
+          </div>
+          <div class="rounded-xl bg-white p-8 shadow-sm">
+            <p class="font-hand text-2xl/8 text-lavender-700">your pace, your people</p>
+            <p class="mt-3 text-base/7 text-plum-950">
+              Sessions are relaxed and unrushed — with snack breaks, outfit changes, and plenty
+              of grace for toddlers who have opinions of their own.
+            </p>
+          </div>
+          <div class="rounded-xl bg-white p-8 shadow-sm">
+            <p class="font-hand text-2xl/8 text-lavender-700">memories that last</p>
+            <p class="mt-3 text-base/7 text-plum-950">
+              You'll get a gallery of images you'll want to print, frame, and look back on for
+              years — the kind worth freezing in time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto max-w-3xl px-6 py-20">
+      <div class="flex flex-col items-center gap-4 border-t border-cream-200 pt-12 text-center">
+        <p class="font-display text-2xl/9 font-bold text-plum-950 italic">Ready to freeze a moment of your own?</p>
+        <p class="max-w-md text-base/7 text-cream-700">
+          Family sessions, milestones, and everything in between — I'd love to hear from you.
+        </p>
+        <a
+          href="/contact"
+          class="mt-2 rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          Book a session
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
