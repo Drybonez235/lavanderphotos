@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { alternatesFor, localizedPath, type Locale } from '../../i18n/ui';
+import { gallery } from '../../i18n/pages/gallery';
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: undefined }, props: { locale: 'en' as Locale, alternates: alternatesFor('/gallery/') } },
+    { params: { locale: 'es' }, props: { locale: 'es' as Locale, alternates: alternatesFor('/gallery/') } },
+  ];
+}
+
+interface Props {
+  locale: Locale;
+  alternates: Partial<Record<Locale, string>>;
+}
+
+const { locale, alternates } = Astro.props as Props;
+const copy = gallery[locale];
+
+// Photo sources, in the same order as copy.photos (localized alt/caption per index).
+const photos = [
+  '/baby-on-couch-for-first-birthday-with-baloon.avif',
+  '/Baby-with-Red-Headband.avif',
+  '/Butterfly-Costume.avif',
+  '/Baby-on-Bed-with-Record.webp',
+  '/Child-Holding-Baby-on-Playground.avif',
+  '/Child-in-Blue-Dress.avif',
+  '/girl-climbing-over-fence.avif',
+  '/Children-on-Floor.webp',
+  '/man-and-boy-on-lake-jet-skiing.avif',
+  '/Person-by-Black-Car.avif',
+];
+
+const tilts = [
+  'rotate-2',
+  '-rotate-3',
+  'rotate-1',
+  '-rotate-2',
+  'rotate-3',
+  '-rotate-1',
+];
+
+/**
+ * Manual masonry: each photo goes into whichever column is currently
+ * shortest, so the three stacks always end up with even heights and
+ * there are no empty grid cells anywhere in the layout.
+ */
+const columns: number[][] = [[], [], []];
+const columnHeights = [0, 0, 0];
+photos.forEach((_, index) => {
+  // matches the aspect ratio rendered below: every 4th photo is a 4:5
+  const height = index % 3 === 0 ? 1.25 : 1;
+  const target = columnHeights.indexOf(Math.min(...columnHeights));
+  columns[target].push(index);
+  columnHeights[target] += height;
+});
+---
+
+<BaseLayout
+  title={copy.meta.title}
+  description={copy.meta.description}
+  image="/og-image.jpg"
+  locale={locale}
+  alternates={alternates}
+>
+  <main class="min-h-dvh">
+    <!-- Header -->
+    <section class="relative overflow-hidden bg-linear-to-br from-lavender-200 via-lavender-400 to-plum-500">
+      <div class="mx-auto flex max-w-6xl items-center justify-center gap-10 px-6 py-20 md:py-28">
+        <!-- Frames: left -->
+        <div class="hidden flex-1 items-center justify-center gap-4 md:flex" aria-hidden="true">
+          <img
+            src="/frames/frame-gold.svg"
+            alt=""
+            loading="lazy"
+            class="w-36 lg:w-44"
+          />
+          <img
+            src="/frames/frame-metal.svg"
+            alt=""
+            loading="lazy"
+            class="mt-16 w-32 lg:w-40"
+          />
+        </div>
+
+        <!-- Title -->
+        <div class="max-w-xl text-center">
+          <p class="text-xs/5 font-bold tracking-widest text-plum-800 uppercase">{copy.eyebrow}</p>
+          <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">{copy.heading}</h1>
+          <p class="mx-auto mt-6 max-w-xl text-lg/8 text-plum-950">
+            {copy.subtitle}
+          </p>
+        </div>
+
+        <!-- Frames: right -->
+        <div class="hidden flex-1 items-center justify-center gap-4 md:flex" aria-hidden="true">
+          <img
+            src="/frames/frame-wood.svg"
+            alt=""
+            loading="lazy"
+            class="w-32 lg:w-40"
+          />
+          <img
+            src="/frames/frame-oak.svg"
+            alt=""
+            loading="lazy"
+            class="mt-16 w-36 lg:w-44"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo grid -->
+    <section class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid grid-cols-2 items-start gap-4 md:grid-cols-3 md:gap-6">
+        {
+          columns.map((column) => (
+            <div class="flex flex-col gap-8">
+              {column.map((index) => (
+                <figure
+                  class={`relative z-0 inline-block w-full bg-white p-3 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 transform-gpu hover:z-10 hover:scale-105 hover:rotate-0 ${tilts[index % tilts.length]}`}
+                >
+                  <img
+                    src={photos[index]}
+                    alt={copy.photos[index].alt}
+                    loading="lazy"
+                    class={index % 3 === 0 ? 'aspect-[4/5] w-full object-cover' : 'aspect-square w-full object-cover'}
+                  />
+                  <figcaption class="pt-3 text-center font-hand text-xl/7 text-plum-800">{copy.photos[index].caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-16 flex flex-col items-center gap-4 border-t border-cream-200 pt-12 text-center">
+        <p class="font-display text-2xl/9 font-bold text-plum-950 italic">{copy.cta.heading}</p>
+        <a
+          href={localizedPath(locale, '/contact/')}
+          class="mt-2 rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          {copy.cta.bookBtn}
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

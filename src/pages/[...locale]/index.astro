@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { alternatesFor, localizedPath, type Locale } from '../../i18n/ui';
+import { home } from '../../i18n/pages/home';
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: undefined }, props: { locale: 'en' as Locale, alternates: alternatesFor('/') } },
+    { params: { locale: 'es' }, props: { locale: 'es' as Locale, alternates: alternatesFor('/') } },
+  ];
+}
+
+interface Props {
+  locale: Locale;
+  alternates: Partial<Record<Locale, string>>;
+}
+
+const { locale, alternates } = Astro.props as Props;
+const copy = home[locale];
+---
+
+<BaseLayout
+  title={copy.meta.title}
+  description={copy.meta.description}
+  image="/og-image.jpg"
+  locale={locale}
+  alternates={alternates}
+>
+  <main class="min-h-dvh">
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-linear-to-br from-lavender-300 via-lavender-600 to-plum-700">
+      <div class="mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 text-center md:flex-row md:justify-between md:py-28 md:text-left">
+        <div
+          class="grid aspect-square w-56 shrink-0 place-items-center rounded-full border-4 border-brown-600 bg-cream-100/90 shadow-lg md:w-80 lg:w-96"
+        >
+          <img
+            src="/lavander-photos-icon.webp"
+            alt={copy.heroIconAlt}
+            class="w-3/4 h-auto drop-shadow-lg"
+          />
+        </div>
+        <div class="text-center md:text-left">
+          <p class="text-xs/5 font-bold tracking-widest text-cream-100 uppercase">{copy.heroEyebrow}</p>
+          <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">
+            Lavander <span class="not-italic">Photos</span>
+            <span class="block pt-2 font-hand text-4xl/10 font-medium text-cream-100 md:text-5xl/12">by Joy</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-xl text-lg/8 text-cream-100 md:mx-0">
+            {copy.heroTagline}
+          </p>
+          <div class="mt-10 flex flex-wrap justify-center gap-4 md:justify-start">
+            <a
+              href={localizedPath(locale, '/gallery/')}
+              class="rounded-full bg-white px-6 py-3 text-sm/6 font-bold text-plum-800 shadow-sm hover:bg-cream-100"
+            >
+              {copy.heroWork}
+            </a>
+            <a
+              href={localizedPath(locale, '/contact/')}
+              class="rounded-full border-2 border-white/60 px-6 py-3 text-sm/6 font-bold text-white hover:bg-white/10"
+            >
+              {copy.bookBtn}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Polaroid floor -->
+    <section class="overflow-x-clip bg-linear-to-b from-cream-100 to-cream-50 pb-16">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-start justify-center gap-x-4 gap-y-10 px-6 pt-4">
+        <figure
+          class="w-36 rotate-2 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-44"
+        >
+          <img
+            src="/baby-on-couch-for-first-birthday-with-baloon.avif"
+            alt={copy.polaroids[0].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[0].caption}</figcaption>
+        </figure>
+
+        <figure
+          class="mt-6 w-36 -rotate-6 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-3 md:w-40"
+        >
+          <img
+            src="/Baby-with-Red-Headband.avif"
+            alt={copy.polaroids[1].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[1].caption}</figcaption>
+        </figure>
+
+        <figure
+          class="mt-2 w-40 -rotate-3 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-48"
+        >
+          <img
+            src="/girl-climbing-over-fence.avif"
+            alt={copy.polaroids[2].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[2].caption}</figcaption>
+        </figure>
+
+        <figure
+          class="mt-8 w-36 rotate-6 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-4 md:w-44"
+        >
+          <img
+            src="/Child-Holding-Baby-on-Playground.avif"
+            alt={copy.polaroids[3].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[3].caption}</figcaption>
+        </figure>
+
+        <figure
+          class="mt-4 w-40 -rotate-2 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:w-44"
+        >
+          <img
+            src="/man-and-boy-on-lake-jet-skiing.avif"
+            alt={copy.polaroids[4].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[4].caption}</figcaption>
+        </figure>
+
+        <figure
+          class="mt-10 w-36 rotate-3 relative z-0 bg-white p-3 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-105 hover:rotate-0 md:-ml-2 md:w-40"
+        >
+          <img
+            src="/Person-by-Black-Car.avif"
+            alt={copy.polaroids[5].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-2 text-center font-hand text-lg/6 text-plum-800">{copy.polaroids[5].caption}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Story sections -->
+    <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div class="flex flex-col items-center gap-10 md:flex-row md:gap-16">
+        <figure
+          class="w-64 shrink-0 -rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/Children-on-Floor.webp"
+            alt={copy.storyPhotos[0].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">{copy.storyPhotos[0].caption}</figcaption>
+        </figure>
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">
+            {copy.story[0].heading}
+          </h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            {copy.story[0].body}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-20 flex flex-col-reverse items-center gap-10 md:mt-28 md:flex-row md:justify-between md:gap-16">
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">{copy.story[1].heading}</h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            {copy.story[1].body}
+          </p>
+        </div>
+        <figure
+          class="w-64 shrink-0 rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/girl-climbing-over-fence.avif"
+            alt={copy.storyPhotos[1].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">{copy.storyPhotos[1].caption}</figcaption>
+        </figure>
+      </div>
+
+      <div class="mt-20 flex flex-col items-center gap-10 md:mt-28 md:flex-row md:gap-16">
+        <figure
+          class="w-64 shrink-0 -rotate-2 relative z-0 bg-white p-4 pb-2 shadow-xl shadow-plum-900/15 transition-transform duration-300 hover:z-10 hover:scale-[1.03] hover:rotate-0 md:w-96"
+        >
+          <img
+            src="/Child-in-Blue-Dress.avif"
+            alt={copy.storyPhotos[2].alt}
+            loading="lazy"
+            class="aspect-square w-full object-cover"
+          />
+          <figcaption class="pt-3 text-center font-hand text-2xl/8 text-plum-800">{copy.storyPhotos[2].caption}</figcaption>
+        </figure>
+        <div>
+          <h2 class="font-baskerville text-4xl/11 font-bold text-plum-950">{copy.story[2].heading}</h2>
+          <p class="mt-6 max-w-xl text-lg/8 text-plum-950">
+            {copy.story[2].body}
+          </p>
+          <a
+            href={localizedPath(locale, '/contact/')}
+            class="mt-8 inline-block rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+          >
+            {copy.bookBtn}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mx-auto max-w-3xl px-6 pb-24">
+      <h2 class="text-center font-baskerville text-4xl/11 font-bold text-plum-950">{copy.faq.heading}</h2>
+      <div class="mt-12 grid gap-4">
+        {
+          copy.faq.items.map((item) => (
+            <details class="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-cream-200">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-lg/7 font-bold text-plum-950 [&::-webkit-details-marker]:hidden">
+                {item.q}
+                <span class="grid size-8 shrink-0 place-items-center rounded-full bg-lavender-100 font-bold text-lavender-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="mt-4 text-base/7 text-plum-950">
+                {item.a}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

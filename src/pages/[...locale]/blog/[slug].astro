@@ -1,0 +1,119 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  locales,
+  defaultLocale,
+  getT,
+  localizedPath,
+  splitBlogId,
+  type Locale,
+} from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return locales.flatMap((locale) => {
+    const posts = entries.filter((entry) => splitBlogId(entry.id).locale === locale);
+    const other: Locale = locale === 'en' ? 'es' : 'en';
+
+    return posts.map((entry) => {
+      const { slug } = splitBlogId(entry.id);
+      const selfPath = locale === defaultLocale ? `/blog/${slug}/` : `/es/blog/${slug}/`;
+      const sibling = entries.find((e) => e.id === `${other}/${slug}`);
+      const siblingPath = sibling
+        ? (other === 'en' ? `/blog/${slug}/` : `/es/blog/${slug}/`)
+        : undefined;
+
+      return {
+        params: { locale: locale === defaultLocale ? undefined : locale, slug },
+        props: {
+          entry,
+          locale,
+          alternates: siblingPath ? { [locale]: selfPath, [other]: siblingPath } : { [locale]: selfPath },
+          // If no translated sibling exists, the switcher falls back to the other language's blog index.
+          switchTo: siblingPath ?? localizedPath(other, '/blog/'),
+        },
+      };
+    });
+  });
+}
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+  locale: Locale;
+  alternates: Partial<Record<Locale, string>>;
+  switchTo?: string;
+}
+
+const { entry, locale, alternates, switchTo } = Astro.props as Props;
+const t = getT(locale);
+const backHref = localizedPath(locale, '/blog/');
+const dateLocale = locale === 'es' ? 'es-MX' : 'en-US';
+
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  image={entry.data.image.src}
+  type="article"
+  publishedTime={entry.data.publishDate.toISOString()}
+  locale={locale}
+  alternates={alternates}
+  switchTo={switchTo}
+>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+<!-- Back to Blog Navigation -->
+    <div class="mb-8">
+      <a href={backHref} class="text-[#4D90B5] hover:text-[#3a6d8e] font-medium transition inline-flex items-center gap-1 no-underline">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        {t('blog.backToAll')}
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="text-center mb-10">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+        {entry.data.title}
+      </h1>
+      <div class="text-lg text-gray-500 space-x-2">
+        <span class="font-medium text-[#4D90B5]">{t('blog.by')} Jonathan Lewis</span>
+        <span>&bull;</span>
+        <time datetime={entry.data.publishDate.toISOString()}>
+          {entry.data.publishDate.toLocaleDateString(dateLocale, { dateStyle: 'long' })}
+        </time>
+      </div>
+    </header>
+    <figure class="mb-12 overflow-hidden rounded-xl">
+      <Image
+        src={entry.data.image}
+        alt={`${t('blog.coverAlt')} ${entry.data.title}`}
+        quality="high"
+        loading="eager"
+        class="w-full md:w-3/4 h-auto object-cover mx-auto rounded-xl"
+      />
+    </figure>
+
+
+  <!-- 🌟 THE MAGIC TYPOGRAPHY CONTAINER -->
+    <article class="prose prose-slate lg:prose-lg max-w-none
+      prose-headings:text-gray-900
+      prose-headings:font-bold
+      prose-p:text-gray-700
+      prose-p:leading-relaxed
+      prose-a:text-[#4D90B5]
+      prose-a:no-underline
+      hover:prose-a:text-[#3a6d8e]
+      prose-h2:border-b
+      prose-h2:pb-2
+      prose-h2:border-gray-200">
+
+      <Content />
+
+    </article>
+    </main>
+</BaseLayout>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { alternatesFor, type Locale } from '../../i18n/ui';
+import { contact } from '../../i18n/pages/contact';
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: undefined }, props: { locale: 'en' as Locale, alternates: alternatesFor('/contact/') } },
+    { params: { locale: 'es' }, props: { locale: 'es' as Locale, alternates: alternatesFor('/contact/') } },
+  ];
+}
+
+interface Props {
+  locale: Locale;
+  alternates: Partial<Record<Locale, string>>;
+}
+
+const { locale, alternates } = Astro.props as Props;
+const copy = contact[locale];
+---
+
+<BaseLayout
+  title={copy.meta.title}
+  description={copy.meta.description}
+  image="/og-image.jpg"
+  locale={locale}
+  alternates={alternates}
+>
+  <main class="min-h-dvh">
+    <!-- Header -->
+    <section class="bg-linear-to-br from-lavender-200 via-lavender-400 to-plum-500">
+      <div class="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+        <p class="text-xs/5 font-bold tracking-widest text-plum-800 uppercase">{copy.eyebrow}</p>
+        <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">{copy.heading}</h1>
+        <p class="mx-auto mt-6 max-w-xl text-lg/8 text-plum-950">
+          {copy.intro}
+        </p>
+      </div>
+    </section>
+
+    <!-- Form -->
+    <section class="mx-auto max-w-2xl px-6 py-20">
+      <form class="grid gap-6" onsubmit="return false">
+        <div class="grid gap-2">
+          <label for="name" class="text-sm/6 font-bold text-plum-950">{copy.form.name}</label>
+          <input
+            id="name"
+            type="text"
+            placeholder={copy.form.namePlaceholder}
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="email" class="text-sm/6 font-bold text-plum-950">{copy.form.email}</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          />
+        </div>
+
+        <div class="grid gap-2">
+          <label for="session-type" class="text-sm/6 font-bold text-plum-950">{copy.form.sessionType}</label>
+          <select
+            id="session-type"
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          >
+            {copy.sessionTypes.map((type) => <option value={type}>{type}</option>)}
+          </select>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="message" class="text-sm/6 font-bold text-plum-950">{copy.form.message}</label>
+          <textarea
+            id="message"
+            rows="5"
+            placeholder={copy.form.messagePlaceholder}
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="justify-self-start rounded-full bg-lavender-600 px-8 py-4 text-base/7 font-bold text-white shadow-sm hover:bg-lavender-700 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60"
+        >
+          {copy.form.submit}
+        </button>
+      </form>
+    </section>
+  </main>
+</BaseLayout>
