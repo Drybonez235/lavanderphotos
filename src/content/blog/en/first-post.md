@@ -1,7 +1,7 @@
 ---
 title: "Building a Modern Base Template with Astro"
 description: "A deep dive into setting up type-safe SEO and systematic image optimization in the latest version of Astro."
-image: "../../assests/images/northwest-youth-ministry 2.jpeg"
+image: "../../../assets/images/backgroundfall.webp"
 publishDate: 2026-05-28
 ---
 

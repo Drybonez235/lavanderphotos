@@ -16,7 +16,15 @@ export default defineConfig({
     format: 'directory', // Ensures pages are built as /page/index.html
   },
 
-  site: 'https://example.com',
+  site: 'https://lavanderphotos.com',
+
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
+    routing: {
+      prefixDefaultLocale: false, // English at root (/about/), Spanish under /es/about/
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
@@ -27,5 +35,15 @@ export default defineConfig({
     open: true, 
   },
 
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en-US',
+          es: 'es-MX',
+        },
+      },
+    }),
+  ],
 });

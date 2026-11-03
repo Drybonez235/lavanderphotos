@@ -3,6 +3,7 @@ import type { BusinessInfo } from '../components/SEO.astro'; // Import the type
 import BASEHEAD from '../components/BaseHead.astro'
 import NAV from '../components/Nav.astro'
 import FOOTER from '../components/Footer.astro'
+import { defaultLocale, type Locale } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -10,24 +11,35 @@ interface Props {
   image: string;
   type?: 'website' | 'article';
   businessInfo?: BusinessInfo;
+  /** ISO datetime for article pages, rendered as article:published_time. */
+  publishedTime?: string;
+  /** Page language; defaults to 'en'. */
+  locale?: Locale;
+  /** Same-language-only hreflang alternates for the current page (locale -> path). */
+  alternates?: Partial<Record<Locale, string>>;
+  /** Explicit URL for the nav language switcher, when the sibling URL can't be derived. */
+  switchTo?: string;
 }
 
-const { title, description, image, type, businessInfo } = Astro.props;
+const { title, description, image, type, businessInfo, publishedTime, locale = defaultLocale, alternates, switchTo } = Astro.props;
 ---
 
-<html lang="en">
+<html lang={locale}>
   <BASEHEAD 
         title={title} 
       description={description} 
       image={image} 
       type={type} 
-      businessInfo={businessInfo}>
+      businessInfo={businessInfo}
+      publishedTime={publishedTime}
+      locale={locale}
+      alternates={alternates}>
   </BASEHEAD>
   <body>
-    <NAV></NAV>
+    <NAV locale={locale} switchTo={switchTo}></NAV>
     <main>
       <slot /> <!-- This is where page content goes -->
     </main>
-    <FOOTER></FOOTER>
+    <FOOTER locale={locale}></FOOTER>
   </body>
 </html>

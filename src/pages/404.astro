@@ -1,28 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getT } from '../i18n/ui';
 import '../styles/global.css';
+
+const t = getT('en');
 ---
 
 <BaseLayout
   title="Page Not Found | Lavander Photos"
   description="This page could not be found."
-  image="/images/home-og.jpg"
+  image="/og-image.jpg"
 >
   <main class="min-h-dvh">
     <section class="bg-linear-to-br from-lavender-300 via-lavender-500 to-plum-700">
       <div class="mx-auto flex min-h-dvh max-w-4xl flex-col items-center justify-center px-6 py-24 text-center">
-        <p class="text-xs/5 font-bold tracking-widest text-cream-100 uppercase">404</p>
+        <p class="text-xs/5 font-bold tracking-widest text-cream-100 uppercase">{t('notfound.eyebrow')}</p>
         <h1 class="mt-4 font-baskerville text-5xl/13 font-bold text-white italic md:text-6xl/16">
-          Out of Frame
+          {t('notfound.heading')}
         </h1>
         <p class="mx-auto mt-6 max-w-md text-lg/8 text-cream-100">
-          The page you're looking for slipped out of the shot. Let's get you back to safety.
+          {t('notfound.body')}
+        </p>
+        <p class="mx-auto mt-3 max-w-md text-base/7 text-cream-100/80" lang="es">
+          {t('notfound.esPrompt')}
+          <a href="/es/" class="underline decoration-lavender-300 underline-offset-4 hover:text-white">
+            {t('notfound.esLink')}
+          </a>
         </p>
         <a
           href="/"
           class="mt-10 rounded-full bg-white px-6 py-3 text-sm/6 font-bold text-plum-800 shadow-sm hover:bg-cream-100"
         >
-          Back to home
+          {t('notfound.back')}
         </a>
       </div>
     </section>

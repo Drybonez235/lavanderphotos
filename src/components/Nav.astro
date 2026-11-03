@@ -1,70 +1,119 @@
 ---
-const { pathname } = Astro.url;
+import { getT, localizedPath, defaultLocale, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale?: Locale;
+  /** Explicit URL for the other language, when the sibling URL can't be derived (e.g. unpaired blog posts). */
+  switchTo?: string;
+}
+
+const { locale = defaultLocale, switchTo } = Astro.props;
+const t = getT(locale);
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about/', label: 'About' },
-  { href: '/gallery/', label: 'Gallery' },
-  { href: '/contact/', label: 'Contact' },
+  { href: localizedPath(locale, '/about/'), label: t('nav.about') },
+  { href: localizedPath(locale, '/gallery/'), label: t('nav.gallery') },
+  { href: localizedPath(locale, '/contact/'), label: t('nav.contact') },
 ];
+const homeHref = localizedPath(locale, '/');
 
 const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
-const current = normalize(pathname);
+const current = normalize(Astro.url.pathname);
+const isActive = (href: string) => current === normalize(href);
+
+// Language switcher: /es/blog/x/ <-> /blog/x/ unless the page provides an explicit target.
+const currentPath = Astro.url.pathname;
+const derivedSwitchHref = locale === 'en'
+  ? (currentPath === '/' ? '/es/' : `/es${currentPath}`)
+  : (currentPath.replace(/^\/es(?=\/|$)/, '') || '/');
+const targetHref = switchTo ?? derivedSwitchHref;
+const switchChipClass = 'rounded-md px-1.5 py-1 text-sm transition-colors';
+const switchActiveClass = 'font-bold text-lavender-700 underline decoration-lavender-600 decoration-2 underline-offset-4';
+const switchIdleClass = 'font-semibold text-plum-800 hover:text-lavender-700';
 ---
 
 <header class="sticky top-0 z-50 border-b border-cream-200 bg-cream-50/90 backdrop-blur-sm">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="/" class="text-xl/8 font-normal tracking-wide text-cream-700 uppercase font-baskerville focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60 rounded-md">
+    <a href={homeHref} class="text-xl/8 font-normal tracking-wide text-cream-700 uppercase font-baskerville focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-lavender-400/60 rounded-md">
       Lavander Photos
     </a>
 
-    <!-- Desktop links -->
-    <ul class="hidden items-center gap-8 md:flex">
-      {
-        links.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              aria-current={current === link.href ? 'page' : undefined}
-              class:list={[
-                'text-base/7 font-bold transition-colors hover:text-lavender-700',
-                current === link.href ? 'text-lavender-700 underline decoration-lavender-600 decoration-2 underline-offset-4' : 'text-plum-950',
-              ]}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="flex items-center gap-6">
+      <!-- Desktop links -->
+      <ul class="hidden items-center gap-8 md:flex">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class:list={[
+                  'text-base/7 font-bold transition-colors hover:text-lavender-700',
+                  isActive(link.href) ? 'text-lavender-700 underline decoration-lavender-600 decoration-2 underline-offset-4' : 'text-plum-950',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
 
-    <!-- Mobile toggle -->
-    <button
-      id="nav-toggle"
-      type="button"
-      aria-controls="mobile-nav"
-      aria-expanded="false"
-      aria-label="Toggle menu"
-      class="rounded-md p-2 text-plum-950 hover:bg-lavender-100 md:hidden"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-    </button>
+      <!-- Language switcher -->
+      <div class="flex items-center gap-0.5" aria-label={t('nav.language')} lang="en">
+        {locale === 'en' ? (
+          <span class:list={[switchChipClass, switchActiveClass]}>EN</span>
+        ) : (
+          <a href={targetHref} hreflang="en" class:list={[switchChipClass, switchIdleClass]}>EN</a>
+        )}
+        <span class="text-cream-500" aria-hidden="true">/</span>
+        {locale === 'es' ? (
+          <span class:list={[switchChipClass, switchActiveClass]} lang="es">ES</span>
+        ) : (
+          <a href={targetHref} hreflang="es" lang="es" class:list={[switchChipClass, switchIdleClass]}>ES</a>
+        )}
+      </div>
+
+      <!-- Mobile toggle -->
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        aria-label={t('nav.menuToggle')}
+        class="rounded-md p-2 text-plum-950 hover:bg-lavender-100 md:hidden"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
   </nav>
 
   <!-- Mobile menu -->
   <div id="mobile-nav" class="hidden border-t border-cream-200 bg-cream-50 md:hidden">
     <ul class="mx-auto flex max-w-6xl flex-col px-6 py-4">
+      <li>
+        <a
+          href={homeHref}
+          aria-current={isActive(homeHref) ? 'page' : undefined}
+          class:list={[
+            'block px-2 py-3 text-base/7 font-bold transition-colors hover:bg-lavender-100 hover:text-lavender-700',
+            isActive(homeHref) ? 'text-lavender-700' : 'text-plum-950',
+          ]}
+        >
+          {t('nav.home')}
+        </a>
+      </li>
       {
         links.map((link) => (
           <li>
             <a
               href={link.href}
-              aria-current={current === link.href ? 'page' : undefined}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               class:list={[
                 'block px-2 py-3 text-base/7 font-bold transition-colors hover:bg-lavender-100 hover:text-lavender-700',
-                current === link.href ? 'text-lavender-700' : 'text-plum-950',
+                isActive(link.href) ? 'text-lavender-700' : 'text-plum-950',
               ]}
             >
               {link.label}
@@ -72,6 +121,19 @@ const current = normalize(pathname);
           </li>
         ))
       }
+      <li class="mt-2 flex items-center gap-1 border-t border-cream-200 px-2 pt-3 text-sm" aria-label={t('nav.language')}>
+        {locale === 'en' ? (
+          <span class:list={[switchActiveClass]}>EN</span>
+        ) : (
+          <a href={targetHref} hreflang="en" class:list={[switchIdleClass]}>EN</a>
+        )}
+        <span class="text-cream-500" aria-hidden="true">/</span>
+        {locale === 'es' ? (
+          <span class:list={[switchActiveClass]} lang="es">ES</span>
+        ) : (
+          <a href={targetHref} hreflang="es" lang="es" class:list={[switchIdleClass]}>ES</a>
+        )}
+      </li>
     </ul>
   </div>
 </header>

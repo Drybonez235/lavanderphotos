@@ -1,21 +1,24 @@
 ---
-const SITE_DEFAULT_TITLE = 'My Awesome Astro Base';
-const SITE_DEFAULT_DESC = 'The perfect starting point for my web projects.';
-const SITE_DEFAULT_IMG = '/default-og-image.jpg'; // Placed in public/ folder
+import type { Locale } from '../i18n/ui';
+import { defaultLocale as DEFAULT_LOCALE, getT } from '../i18n/ui';
+
+const SITE_DEFAULT_TITLE = 'Lavander Photos';
+const SITE_DEFAULT_IMG = '/og-image.jpg'; // Real 1200x630 social card in public/
 
 export interface BusinessInfo {
   name: string;
   legalName?: string;
   url: string;
   logo: string;
-  description: string;
+  description?: string; // falls back to a localized default
   telephone?: string;
+  sameAs?: string[];
   address: {
-    streetAddress: string;
-    addressLocality: string; // City
-    addressRegion: string;   // State/Province (e.g., "NY")
-    postalCode: string;
-    addressCountry: string;  // (e.g., "US")
+    streetAddress?: string;
+    addressLocality?: string; // City
+    addressRegion?: string;   // State/Province (e.g., "NY")
+    postalCode?: string;
+    addressCountry: string;   // (e.g., "US")
   };
 }
 interface Props {
@@ -25,65 +28,89 @@ interface Props {
   canonicalURL?: URL;
   type?: 'website' | 'article';
   businessInfo?: BusinessInfo;
+  publishedTime?: string;
+  /** Full hreflang alternates (locale -> code) built by BaseHead. */
+  locale?: Locale;
+  alternates?: Partial<Record<Locale, string>>;
 }
 
-// 1. Initialize your default business object HERE inside the component
+// Only publicly-known info lives here: nothing the site doesn't show.
 const DEFAULT_BUSINESS_INFO: BusinessInfo = {
-  name: 'Christ For Life',
-  url: 'https://cflmc.org/',
-  logo: '/favicon.svg',
-  description: 'Christ for Life motorcycle club exists with the purpose of reaching the motorcycle community with the saving knowledge and love of Jesus Christ.',
-  telephone: '7739832677',
+  name: 'Lavander Photos',
+  url: 'https://lavanderphotos.com',
+  logo: '/lavander-photos-logo-nobg.webp',
+  sameAs: ['https://www.instagram.com/lavander.photos/'],
   address: {
-    streetAddress: '6156 W Grand Ave',
     addressLocality: 'Chicago',
     addressRegion: 'IL',
-    postalCode: '60634',
     addressCountry: 'US',
   },
 };
 
 const {
   title = SITE_DEFAULT_TITLE,
-  description = SITE_DEFAULT_DESC,
+  description,
   image = SITE_DEFAULT_IMG,
   type = 'website',
-  businessInfo,
+  businessInfo = DEFAULT_BUSINESS_INFO,
+  publishedTime,
+  locale = DEFAULT_LOCALE,
+  alternates,
 } = Astro.props;
 
+const t = getT(locale);
+
+// Localized fallbacks (used only when the page doesn't provide one).
+const effectiveDescription = description ?? t('seo.defaultDescription');
+const effectiveBusinessDescription = businessInfo.description ?? t('seo.defaultDescription');
+
 const canonicalURL = Astro.props.canonicalURL || new URL(Astro.url.pathname, Astro.site);
-const formattedTitle = title === SITE_DEFAULT_TITLE ? title : `${title} | ${SITE_DEFAULT_TITLE}`;
 
-let jsonLD = null;
+// Pages pass fully-formed titles (e.g. "About | Lavander Photos"); bare titles
+// (e.g. blog post names) get the brand appended.
+const formattedTitle = title.includes(SITE_DEFAULT_TITLE) ? title : `${title} | ${SITE_DEFAULT_TITLE}`;
 
-if (businessInfo) {
-  jsonLD = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": businessInfo.name,
-    "legalName": businessInfo.legalName || businessInfo.name,
-    "url": businessInfo.url,
-    "logo": businessInfo.logo,
-    "image": image, // Fallback to the page's open graph image for search engines
-    "description": businessInfo.description,
-    "telephone": businessInfo.telephone,
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": businessInfo.address.streetAddress,
-      "addressLocality": businessInfo.address.addressLocality,
-      "addressRegion": businessInfo.address.addressRegion,
-      "postalCode": businessInfo.address.postalCode,
-      "addressCountry": businessInfo.address.addressCountry,
-    }
-  };
-}
+// hreflang alternates: absolute URLs, English doubles as x-default.
+const HREFLANG_CODES: Record<Locale, string> = { en: 'en-US', es: 'es-MX' };
+const alternateLinks = (Object.entries(alternates ?? {}) as [Locale, string][])
+  .filter(([, path]) => Boolean(path))
+  .map(([localeKey, path]) => ({ hreflang: HREFLANG_CODES[localeKey], href: new URL(path, Astro.site) }));
+const xDefaultLink = alternates?.en ? new URL(alternates.en, Astro.site) : null;
+
+const ogImageURL = new URL(image, Astro.site);
+
+const jsonLD = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: businessInfo.name,
+  legalName: businessInfo.legalName || businessInfo.name,
+  url: businessInfo.url, // business site root
+  logo: new URL(businessInfo.logo, Astro.site),
+  image: ogImageURL,
+  description: effectiveBusinessDescription,
+  ...(businessInfo.sameAs?.length ? { sameAs: businessInfo.sameAs } : {}),
+  ...(businessInfo.telephone ? { telephone: businessInfo.telephone } : {}),
+  address: {
+    '@type': 'PostalAddress',
+    ...(businessInfo.address.streetAddress ? { streetAddress: businessInfo.address.streetAddress } : {}),
+    ...(businessInfo.address.addressLocality ? { addressLocality: businessInfo.address.addressLocality } : {}),
+    ...(businessInfo.address.addressRegion ? { addressRegion: businessInfo.address.addressRegion } : {}),
+    ...(businessInfo.address.postalCode ? { postalCode: businessInfo.address.postalCode } : {}),
+    addressCountry: businessInfo.address.addressCountry,
+  },
+};
 ---
 
 <link rel="canonical" href={canonicalURL} />
 
+{alternateLinks.map(({ hreflang, href }) => (
+  <link rel="alternate" hreflang={hreflang} href={href} />
+))}
+{xDefaultLink && <link rel="alternate" hreflang="x-default" href={xDefaultLink} />}
+
 <title>{formattedTitle}</title>
 <meta name="title" content={formattedTitle} />
-<meta name="description" content={description} />
+<meta name="description" content={effectiveDescription} />
 
 <!-- Standard Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -94,16 +121,21 @@ if (businessInfo) {
 
 
 <meta property="og:type" content={type} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={formattedTitle} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:description" content={effectiveDescription} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:site_name" content={SITE_DEFAULT_TITLE} />
+{type === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
 
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={formattedTitle} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={formattedTitle} />
+<meta name="twitter:description" content={effectiveDescription} />
+<meta name="twitter:image" content={ogImageURL} />
+
 {jsonLD && (
   <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
 )}
