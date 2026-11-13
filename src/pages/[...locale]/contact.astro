@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { alternatesFor, type Locale } from '../../i18n/ui';
-import { contact } from '../../i18n/pages/contact';
+import { contact, sessionTypeValues } from '../../i18n/pages/contact';
 
 export function getStaticPaths() {
   return [
@@ -40,12 +40,26 @@ const copy = contact[locale];
 
     <!-- Form -->
     <section class="mx-auto max-w-2xl px-6 py-20">
-      <form class="grid gap-6" onsubmit="return false">
+      <!-- Invisible iframe captures the Google Forms redirect so the page doesn't navigate -->
+      <iframe
+        name="google-form-target"
+        title="Form submission"
+        style="display:none"
+        aria-hidden="true"
+        tabindex="-1"></iframe>
+
+      <form
+        class="grid gap-6"
+        action="https://docs.google.com/forms/d/1k_QeWtBYgKwrmeoZdxFlWIElSuOIAMWVHu6QCmmKpBY/formResponse"
+        method="POST"
+        target="google-form-target"
+      >
         <div class="grid gap-2">
           <label for="name" class="text-sm/6 font-bold text-plum-950">{copy.form.name}</label>
           <input
             id="name"
             type="text"
+            name="entry.1598326906"
             placeholder={copy.form.namePlaceholder}
             class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
           />
@@ -56,6 +70,7 @@ const copy = contact[locale];
           <input
             id="email"
             type="email"
+            name="entry.1431032623"
             placeholder="you@example.com"
             class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
           />
@@ -65,9 +80,12 @@ const copy = contact[locale];
           <label for="session-type" class="text-sm/6 font-bold text-plum-950">{copy.form.sessionType}</label>
           <select
             id="session-type"
+            name="entry.768917021"
             class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
           >
-            {copy.sessionTypes.map((type) => <option value={type}>{type}</option>)}
+            {sessionTypeValues.map((value, i) => (
+              <option value={value}>{copy.sessionTypes[i]}</option>
+            ))}
           </select>
         </div>
 
@@ -75,9 +93,62 @@ const copy = contact[locale];
           <label for="message" class="text-sm/6 font-bold text-plum-950">{copy.form.message}</label>
           <textarea
             id="message"
+            name="entry.1720231114"
             rows="5"
             placeholder={copy.form.messagePlaceholder}
             class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"></textarea>
+        </div>
+
+        <div class="grid gap-2">
+          <label for="security-check" class="text-sm/6 font-bold text-plum-950">{copy.form.securityCheck}</label>
+          <div class="flex items-center gap-3">
+            <img
+              src="/recaptcha.svg"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              class="h-10 w-10 shrink-0"
+            />
+            <svg
+              viewBox="0 0 180 56"
+              class="h-14 w-45 rounded-md border border-cream-200"
+              role="img"
+              aria-label="Security check"
+            >
+              <!-- solid background so the captcha is fully opaque -->
+              <rect width="180" height="56" fill="var(--color-cream-50)" />
+              <!-- background noise -->
+              <circle cx="14" cy="10" r="2" fill="var(--color-cream-200)" />
+              <circle cx="52" cy="48" r="2.5" fill="var(--color-cream-200)" />
+              <circle cx="94" cy="8" r="2" fill="var(--color-cream-200)" />
+              <circle cx="128" cy="44" r="2" fill="var(--color-cream-200)" />
+              <circle cx="166" cy="14" r="2.5" fill="var(--color-cream-200)" />
+              <circle cx="34" cy="26" r="1.5" fill="var(--color-cream-500)" opacity="0.5" />
+              <circle cx="150" cy="30" r="1.5" fill="var(--color-cream-500)" opacity="0.5" />
+              <!-- strike-through lines -->
+              <path d="M8 40 C 60 18, 120 42, 172 20" fill="none" stroke="var(--color-cream-500)" stroke-width="1.5" opacity="0.6" />
+              <path d="M10 14 C 70 44, 118 12, 170 44" fill="none" stroke="var(--color-cream-500)" stroke-width="1.5" opacity="0.4" />
+              <!-- challenge glyphs, each slightly rotated for a captcha look -->
+              <g font-family="Baskerville, Georgia, serif" font-size="30" font-weight="bold" fill="var(--color-plum-950)">
+                <text x="18" y="40" transform="rotate(-9 18 40)">1</text>
+                <text x="40" y="38" transform="rotate(7 40 38)">0</text>
+                <text x="68" y="39" transform="rotate(-6 68 39)">+</text>
+                <text x="94" y="40" transform="rotate(8 94 40)">1</text>
+                <text x="118" y="38" transform="rotate(-7 118 38)">=</text>
+                <text x="146" y="39" transform="rotate(6 146 39)">?</text>
+              </g>
+            </svg>
+          </div>
+          <input
+            id="security-check"
+            type="text"
+            name="entry.1654910147"
+            inputmode="numeric"
+            autocomplete="off"
+            required
+            placeholder={copy.form.securityCheckPlaceholder}
+            class="rounded-lg border border-cream-200 bg-white px-4 py-3 text-base/7 text-plum-950 placeholder:text-cream-500 focus:outline-hidden focus:ring-3 focus:ring-lavender-400/60"
+          />
         </div>
 
         <button

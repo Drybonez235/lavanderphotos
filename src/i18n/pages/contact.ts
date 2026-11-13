@@ -1,6 +1,10 @@
 // src/i18n/pages/contact.ts
 // All visible copy for the contact page, per locale.
 
+// Values submitted to the Google Form for the session type question.
+// Must match the option values in the Google Form exactly, regardless of locale.
+export const sessionTypeValues = ['Newborn', 'Milestone', 'Family', 'Something else'] as const;
+
 export const contact = {
   en: {
     meta: {
@@ -21,6 +25,8 @@ export const contact = {
       sessionType: 'Session type',
       message: 'Message',
       messagePlaceholder: 'Tell me about your session...',
+      securityCheck: 'Security check',
+      securityCheckPlaceholder: 'Your answer',
       submit: 'Send inquiry',
     },
   },
@@ -42,6 +48,8 @@ export const contact = {
       sessionType: 'Tipo de sesión',
       message: 'Mensaje',
       messagePlaceholder: 'Cuéntame de tu sesión...',
+      securityCheck: 'Verificación de seguridad',
+      securityCheckPlaceholder: 'Tu respuesta',
       submit: 'Enviar mensaje',
     },
   },
