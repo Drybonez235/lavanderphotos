@@ -28,6 +28,9 @@ export const contact = {
       securityCheck: 'Security check',
       securityCheckPlaceholder: 'Your answer',
       submit: 'Send inquiry',
+      thankYouHeading: 'Thank you!',
+      thankYouMessage:
+        'Your message is on its way — I usually reply within two days. Talk soon!',
     },
   },
   es: {
@@ -51,6 +54,9 @@ export const contact = {
       securityCheck: 'Verificación de seguridad',
       securityCheckPlaceholder: 'Tu respuesta',
       submit: 'Enviar mensaje',
+      thankYouHeading: '¡Gracias!',
+      thankYouMessage:
+        'Tu mensaje está en camino — suelo responder en un par de días. ¡Hasta pronto!',
     },
   },
 } as const;
